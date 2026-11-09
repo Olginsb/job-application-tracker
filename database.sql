@@ -367,12 +367,13 @@ COPY public.skills (id, name) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, email, password) FROM stdin;
-1	Anna Smith	anna@example.com	password123
-2	John Brown	john@example.com	password456
-3	Maria Davis	maria@example.com	password789
-\.
 
+COPY public.users (id, name, email, password) FROM stdin;
+1	Anna Smith	anna@example.com	pbkdf2:sha256:600000$4853bbc5b85b063e$fff755eb457ac38c195f1f218d2271e5194af635bee2c0afc9790acd894a4387
+2	John Brown	john@example.com	pbkdf2:sha256:600000$e8bf0132549c3b33$0dc2535afd8ef69f2c5841bab85a21bde89f0492273951340827842ab3e15ace
+3	Maria Davis	maria@example.com	pbkdf2:sha256:600000$de07ff871087e03f$a28c1d1fb36bd86b3e45162ca16e801a27c8d78cf9b1b6af929cfdea23a9b43d
+\.
+№
 
 --
 -- Name: applications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
