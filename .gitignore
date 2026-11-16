@@ -23,3 +23,4 @@ venv/
 
 # ZIP archives
 *.zip
+.pytest_cache/
