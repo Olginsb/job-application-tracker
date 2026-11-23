@@ -6,7 +6,13 @@ api = Blueprint("api", __name__)
 
 @api.route("/applications", methods=["GET"])
 def get_applications():
-    applications = Application.query.all()
+    status = request.args.get("status")
+    query = Application.query
+
+    if status:
+        query = query.filter_by(status=status)
+
+    applications = query.all()
 
     result = []
     for application in applications:
