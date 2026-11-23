@@ -82,3 +82,34 @@ def test_delete_nonexistent_application(client, monkeypatch):
     assert response.get_json() == {
         "error": "Application not found"
     }
+
+def test_get_applications_filter_by_status(client, monkeypatch):
+    # Simulate two applications with different statuses
+    applications = [
+        SimpleNamespace(id=1, user_id=1, job_id=1, status="Applied"),
+        SimpleNamespace(id=2, user_id=1, job_id=2, status="Interview"),
+    ]
+
+    class FakeQuery:
+        def filter_by(self, **kwargs):
+            assert kwargs == {"status": "Applied"}
+            filtered = [
+                app for app in applications
+                if app.status == kwargs["status"]
+            ]
+            return SimpleNamespace(all=lambda: filtered)
+
+    class FakeApplication:
+        query = FakeQuery()
+
+    monkeypatch.setattr(routes, "Application", FakeApplication)
+
+    response = client.get("/applications?status=Applied")
+
+    assert response.status_code == 200
+    assert response.get_json() == [{
+        "id": 1,
+        "user_id": 1,
+        "job_id": 1,
+        "status": "Applied"
+    }]
